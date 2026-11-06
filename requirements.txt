@@ -1,0 +1,4 @@
+# Pure Python Standard Library implementation - Zero mandatory dependencies required.
+# Optional dependencies for development:
+# pytest>=7.0.0
+# rich>=13.0.0

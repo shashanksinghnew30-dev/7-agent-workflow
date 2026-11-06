@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Autonomous 7-Agent AI Workflow</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="logo-icon">⚡</div>
+      <h1>7-Agent Autonomous AI Workflow</h1>
+    </div>
+    <div class="status-badge" id="global-status-badge">
+      <div class="status-dot"></div>
+      <span id="global-status-text">Engine Ready</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Prompt & Trigger Section -->
+    <section class="prompt-box glass">
+      <form id="workflow-form" class="prompt-form">
+        <input 
+          type="text" 
+          id="prompt-input" 
+          placeholder="Describe the software component or system to build..." 
+          required 
+          autocomplete="off"
+          value="Build a high-performance thread-safe LRU Cache with TTL and statistics"
+        />
+        <button type="submit" class="btn-primary" id="btn-run">
+          <span>Run Workflow</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </button>
+      </form>
+      <div style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #cbd5e1;">
+        <input type="checkbox" id="check-loopback" />
+        <label for="check-loopback" style="cursor: pointer;">Demonstrate Strict QA Loopback (Simulate defect on 1st pass to test self-healing cycle back to Lead Coder)</label>
+      </div>
+      <div class="example-chips">
+        <span>Quick Examples:</span>
+        <span class="chip" onclick="setPrompt('Build a high-performance thread-safe LRU Cache with TTL and statistics')">LRU Cache with TTL</span>
+        <span class="chip" onclick="setPrompt('Build a Token Bucket rate limiter with burst capacity and thread safety')">Token Bucket Rate Limiter</span>
+        <span class="chip" onclick="setPrompt('Build an asynchronous reactive event bus with pub/sub and topics')">Reactive Event Bus</span>
+      </div>
+    </section>
+
+    <!-- Workflow Pipeline DAG Column -->
+    <aside class="workflow-col">
+      <div class="dag-container glass">
+        <h3 style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.25rem;">Pipeline Topology</h3>
+        
+        <!-- Node 0: UI / Terminal -->
+        <div class="dag-node completed" id="node-0">
+          <div class="dag-icon">💻</div>
+          <div class="dag-text">
+            <div class="dag-title">Browser UI / Python Terminal</div>
+            <div class="dag-subtitle">Client Interface</div>
+          </div>
+        </div>
+
+        <div class="dag-arrow">▼</div>
+
+        <!-- Node 1: Agent 1 -->
+        <div class="dag-node" id="node-1">
+          <div class="dag-icon">🌐</div>
+          <div class="dag-text">
+            <div class="dag-title">Agent 1: Interface & Medium</div>
+            <div class="dag-subtitle">Relays progress & parses intent</div>
+          </div>
+        </div>
+
+        <div class="dag-arrow">▼</div>
+
+        <!-- Node 2: Agents 2 & 3 -->
+        <div class="dag-node" id="node-2">
+          <div class="dag-icon">⚖️</div>
+          <div class="dag-text">
+            <div class="dag-title">Agents 2 & 3: Interpreter & Architect</div>
+            <div class="dag-subtitle">Analyzes intent & debates trade-offs</div>
+          </div>
+        </div>
+
+        <div class="dag-arrow">▼</div>
+
+        <!-- Node 3: Agent 4 -->
+        <div class="dag-node" id="node-4">
+          <div class="dag-icon">🛠️</div>
+          <div class="dag-text">
+            <div class="dag-title">Agent 4: Lead Coder</div>
+            <div class="dag-subtitle">Writes clean, complete code</div>
+          </div>
+        </div>
+
+        <div class="dag-arrow">▼ ↺</div>
+
+        <!-- Node 4: Agent 5 -->
+        <div class="dag-node" id="node-5">
+          <div class="dag-icon">🔍</div>
+          <div class="dag-text">
+            <div class="dag-title">Agent 5: Strict QA & Bug Tester</div>
+            <div class="dag-subtitle">Audits code & loops back to Coder</div>
+          </div>
+          <span class="loop-badge" id="badge-loop" style="display:none;">Loop 1</span>
+        </div>
+
+        <div class="dag-arrow">▼ (Passed QA)</div>
+
+        <!-- Node 5: Agent 6 -->
+        <div class="dag-node" id="node-6">
+          <div class="dag-icon">🛡️</div>
+          <div class="dag-text">
+            <div class="dag-title">Agent 6: Supervisor</div>
+            <div class="dag-subtitle">Reviews against original intent</div>
+          </div>
+        </div>
+
+        <div class="dag-arrow">▼ (Approved)</div>
+
+        <!-- Node 6: Agent 7 -->
+        <div class="dag-node" id="node-7">
+          <div class="dag-icon">📦</div>
+          <div class="dag-text">
+            <div class="dag-title">Agent 7: Delivery Specialist</div>
+            <div class="dag-subtitle">Packages & delivers final code</div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- Details Column (Tabs) -->
+    <section class="details-col glass">
+      <nav class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('tab-logs')">Live Telemetry</button>
+        <button class="tab-btn" onclick="switchTab('tab-debate')">Architect Debate</button>
+        <button class="tab-btn" onclick="switchTab('tab-code')">Code Studio</button>
+        <button class="tab-btn" onclick="switchTab('tab-qa')">Strict QA Audit</button>
+        <button class="tab-btn" onclick="switchTab('tab-supervisor')">Supervisor Review</button>
+        <button class="tab-btn" onclick="switchTab('tab-delivery')">Delivery Package</button>
+      </nav>
+
+      <!-- Tab 1: Live Logs -->
+      <div class="tab-pane active" id="tab-logs">
+        <div class="terminal-window" id="terminal-feed">
+          <div class="log-entry">
+            <span class="log-time">[System]</span>
+            <span class="log-msg">Ready. Enter prompt or pick an example to run the multi-agent pipeline.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Debate Arena -->
+      <div class="tab-pane" id="tab-debate">
+        <div class="debate-thread" id="debate-container">
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Debate transcript will appear once Agents 2 & 3 begin deliberation...</p>
+        </div>
+      </div>
+
+      <!-- Tab 3: Code Studio -->
+      <div class="tab-pane" id="tab-code">
+        <div class="code-toolbar">
+          <div class="file-tabs" id="code-file-tabs"></div>
+          <button class="chip" onclick="copyCurrentCode()">Copy File Code</button>
+        </div>
+        <pre class="code-pre" id="code-display">Code will be displayed here as Agent 4 writes it...</pre>
+      </div>
+
+      <!-- Tab 4: Strict QA -->
+      <div class="tab-pane" id="tab-qa">
+        <div class="qa-summary-grid">
+          <div class="metric-card">
+            <div class="metric-val" id="qa-status-val">--</div>
+            <div class="metric-lbl">QA Verdict</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val" id="qa-tests-val">0 / 0</div>
+            <div class="metric-lbl">Tests Passed</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val" id="qa-loops-val">0</div>
+            <div class="metric-lbl">Self-Healing Loops</div>
+          </div>
+        </div>
+        <h4 style="margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Sandbox Execution Output</h4>
+        <pre class="code-pre" id="qa-exec-log" style="max-height: 250px;">Waiting for Agent 5 audit run...</pre>
+      </div>
+
+      <!-- Tab 5: Supervisor -->
+      <div class="tab-pane" id="tab-supervisor">
+        <div class="qa-summary-grid">
+          <div class="metric-card">
+            <div class="metric-val" id="sup-score-val">--%</div>
+            <div class="metric-lbl">Alignment Score</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val" id="sup-verdict-val">--</div>
+            <div class="metric-lbl">Executive Verdict</div>
+          </div>
+        </div>
+        <div id="sup-checklist-box">
+          <h4 style="margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Intent Verification Criteria</h4>
+          <ul id="sup-checklist" style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
+            <li>⏳ Direct prompt intent verification</li>
+            <li>⏳ Edge case boundaries covered</li>
+            <li>⏳ Concurrency / thread-safety</li>
+            <li>⏳ Zero dependency compliance</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tab 6: Delivery Package -->
+      <div class="tab-pane" id="tab-delivery">
+        <div class="delivery-box" id="delivery-details">
+          <p style="color: var(--text-muted);">Agent 7 will bundle and present the verified code package here upon approval.</p>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
